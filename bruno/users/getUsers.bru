@@ -1,0 +1,16 @@
+meta {
+  name: getUsers
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://localhost/workspace_php/zowify/public/Api/User/index
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

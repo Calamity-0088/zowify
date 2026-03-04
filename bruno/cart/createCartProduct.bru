@@ -1,0 +1,23 @@
+meta {
+  name: createCartProduct
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://localhost/workspace_php/zowify/public/Api/Cart/store
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id":  1,
+    "quantity": 2
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,37 @@
+meta {
+  name: createProduct
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://localhost/workspace_php/zowify/public/Api/Product/store
+  body: multipartForm
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "Cadena de oro",
+    "description": "Cadena de oro elegante",
+    "price": "199.99",
+    "stock": 10,
+    "category_id": 5
+  }
+}
+
+body:multipart-form {
+  title: Cadena de oro
+  description: Cadena de oro elegante
+  price: 199.99
+  discount: 10.00
+  discount_type: percentage
+  stock: 10
+  category_id: 5
+  image: @file(/home/calamity/Descargas/98829635.jpg)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

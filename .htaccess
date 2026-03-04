@@ -1,0 +1,20 @@
+    # Archivo de configuración de servidor web
+
+    # Activa el rewriting engine
+    RewriteEngine On
+
+    #
+    RewriteBase /workspace_php/zowify/
+
+    # Si el archivo es index.php no se procesa
+    RewriteRule ^index\.php$ - [L]
+
+    # => Cond (Condición)
+    # Si el archivo o el directorio no existen, aplicará una reescritura que redirigirá a index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # => ^ (Hace que si la ruta empieza por lo que sea, redirige a index.php)
+    # [L] Last (Hace que no procese más reglas.)
+    RewriteRule ^ public/index.php [L] 
+
+    ErrorDocument 404 "HTACCESS FUNCIONA"

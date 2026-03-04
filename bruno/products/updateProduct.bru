@@ -1,0 +1,27 @@
+meta {
+  name: updateProduct
+  type: http
+  seq: 4
+}
+
+post {
+  url: https://localhost/workspace_php/zowify/public/Api/Product/update/31
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  title: Lencería negra
+  description: Lencería de encaje
+  price: 70
+  discount: 20.00
+  discount_type: percentage
+  stock: 15
+  category_id: 2
+  image: @file(/home/calamity/Descargas/48835607.jpg)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
