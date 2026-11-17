@@ -5,7 +5,7 @@ const getOrder = async () => {
     const $fragment = d.createDocumentFragment();
 
     try {
-        const response = await axios.get('/workspace_php/zowify/public/Api/Order/index');
+        const response = await axios.get('/Api/Order/index');
         json = response.data.data;
     } catch (err) {
         console.error(err.response
@@ -19,7 +19,7 @@ const getOrder = async () => {
         const $clone = d.importNode($template, true);
 
         $clone.querySelector('.order').dataset.id = order.id;
-        $clone.querySelector('.order__main').href = `/workspace_php/zowify/public/detail?id=${order.id}`;
+        $clone.querySelector('.order__main').href = `/detail?id=${order.id}`;
         $clone.querySelector('.order__title').textContent = `Pedido #${order.id}`;
         $clone.querySelector('.order__payment .order__value').textContent = order.payment_status;
         $clone.querySelector('.order__shipping .order__value').textContent = order.shipping_status;

@@ -12,7 +12,7 @@ CREATE TABLE product (
 	`description`	VARCHAR(500) NOT NULL,
 	price			DECIMAL(10, 2) NOT NULL,
 	discount		DECIMAL(5, 2) DEFAULT 0,
-	discount_type	VARCHAR(20) DEFAULT 'percentage',
+	discount_type	ENUM('percentage', 'fixed') DEFAULT 'percentage',
 	stock			INT NOT NULL DEFAULT 0,
 	category_id		INT NOT NULL,
 	image			VARCHAR(100) DEFAULT NULL,
@@ -76,20 +76,20 @@ INSERT INTO product (title, `description`, price, discount, discount_type, stock
 ('Body Bebé Algodón', 'Body suave para recién nacidos', 14.99, 3.00, 'percentage', 60, 3, 'body_bebe.jpg'),
 ('Pelele Bebé Estampado', 'Pelele cómodo y adorable', 24.99, 5.00, 'percentage', 50, 3, 'pelele_bebe.jpg'),
 ('Zapatilla Deportiva Blanca', 'Zapatilla cómoda para diario', 69.99, 20.00, 'percentage', 45, 4, 'zapatilla_blanca.jpg'),
-('Tacón Negro Alto', 'Tacón elegante para eventos', 79.99, 0.00, 'percentage', 25, 4, 'tacos_negro.jpg'),
+('Tacones Negros Altos', 'Tacón elegante para eventos', 79.99, 0.00, 'percentage', 25, 4, 'tacones_negros.jpg'),
 ('Sandalia Plana Mujer', 'Sandalia cómoda verano', 29.99, 7.00, 'percentage', 55, 4, 'sandalia_plana.jpg'),
-('Sneaker Hombre Gris', 'Sneaker moderno y cómodo', 74.99, 18.00, 'percentage', 35, 4, 'sneaker_hombre.jpg'),
+('Sneaker Gris Hombre', 'Sneaker moderno y cómodo', 74.99, 18.00, 'percentage', 35, 4, 'sneaker_hombre.jpg'),
 ('Gafas de Sol Aviador', 'Gafas clásicas estilo aviador', 44.99, 10.00, 'percentage', 40, 5, 'gafas_aviador.jpg'),
 ('Cinturón Cuero Negro', 'Cinturón de cuero genuino', 34.99, 0.00, 'percentage', 50, 5, 'cinturon_negro.jpg'),
 ('Bufanda de Lana', 'Bufanda suave y abrigadora', 24.99, 5.00, 'percentage', 45, 5, 'bufanda_lana.jpg'),
 ('Reloj Pulsera Mujer', 'Reloj elegante dorado', 89.99, 25.00, 'percentage', 20, 5, 'reloj_mujer.jpg'),
 ('Mochila Backpack', 'Mochila resistente para viajes', 59.99, 15.00, 'percentage', 30, 6, 'mochila_backpack.jpg'),
 ('Cartera Tote Mujer', 'Cartera grande para diario', 64.99, 0.00, 'percentage', 25, 6, 'cartera_tote.jpg'),
-('Crossbody Bag', 'Bolsa de hombro moderna', 49.99, 12.00, 'percentage', 35, 6, 'crossbody_bag.jpg'),
+('Bolso Crossbody Mujer', 'Bolsa de hombro moderna', 49.99, 12.00, 'percentage', 35, 6, 'crossbody_bag.jpg'),
 ('Labial Rojo Intenso', 'Labial de larga duración', 12.99, 2.00, 'percentage', 60, 7, 'labial_rojo.jpg'),
 ('Base de Maquillaje', 'Base cobertura total', 18.99, 4.00, 'percentage', 45, 7, 'base_maquillaje.jpg'),
 ('Sombra de Ojos 12 Colores', 'Paleta pigmentada profesional', 24.99, 6.00, 'percentage', 35, 7, 'sombra_ojos.jpg'),
-('Rímel Voluminizador', 'Rímel para pestañas largas', 14.99, 3.00, 'percentage', 50, 7, 'rimal_volumetrico.jpg'),
+('Rímel Voluminizador', 'Rímel para pestañas largas', 14.99, 3.00, 'percentage', 50, 7, 'rimel_voluminizador.jpg'),
 ('Anillo de Oro', 'Anillo elegante oro 18K', 89.99, 0.00, 'percentage', 15, 8, 'anillo_oro.jpg'),
 ('Collar de Perlas', 'Collar clásico de perlas', 129.99, 30.00, 'percentage', 10, 8, 'collar_perlas.jpg'),
 ('Pulsera Plata Mujer', 'Pulsera fina de plata', 44.99, 10.00, 'percentage', 25, 8, 'pulsera_plata.jpg'),
@@ -99,23 +99,18 @@ INSERT INTO product (title, `description`, price, discount, discount_type, stock
 ('Crema Hidratante Facial', 'Crema facial de día SPF 30', 21.99, 5.00, 'percentage', 50, 10, 'crema_hidratante.jpg');
 
 INSERT INTO `user` (first_name, last_name, address, email, `password`) VALUES 
-('Zoe', 'Rivero', 'Calle 5 #123, Lima', 'zoe.rivero@email.com', 'pass123456'),
-('María', 'López', 'Av. Principal 456, Lima', 'maria.lopez@email.com', 'pass789012'),
-('Carlos', 'Martínez', 'Calle 10 #789, Surco', 'carlos.martinez@email.com', 'pass345678'),
-('Ana', 'Rodríguez', 'Av. Larco 321, Miraflores', 'ana.rodriguez@email.com', 'pass901234'),
-('Yuliett', 'Lorusso', 'Calle 20 #654, San Isidro', 'yuliett.lorusso@email.com', 'pass567890'),
-('Laura', 'Sánchez', 'Av. Universitaria 789, Breña', 'laura.sanchez@email.com', 'pass234567'),
-('Roberto', 'Gómez', 'Calle 15 #432, Independencia', 'roberto.gomez@email.com', 'pass890123'),
-('Sandra', 'Díaz', 'Av. Paseo de la República 555, Cercado', 'sandra.diaz@email.com', 'pass456789'),
-('Francisco', 'Torres', 'Calle 8 #987, San Miguel', 'francisco.torres@email.com', 'pass123789'),
-('Patricia', 'Morales', 'Av. 28 de Julio 222, Lince', 'patricia.morales@email.com', 'pass654321');
+('Zoe', 'Rivero', 'Calle 5 #123, Lima', 'zoe.rivero@email.com', '$2y$12$UQWdnOugPEJGajuuQ//mmegLL/tf3tzbJDiPRU1uXhOO6rwaNdaqq'),
+('María', 'López', 'Av. Principal 456, Lima', 'maria.lopez@email.com', '$2y$12$UQWdnOugPEJGajuuQ//mmegLL/tf3tzbJDiPRU1uXhOO6rwaNdaqq'),
+('Carlos', 'Martínez', 'Calle 10 #789, Surco', 'carlos.martinez@email.com', '$2y$12$UQWdnOugPEJGajuuQ//mmegLL/tf3tzbJDiPRU1uXhOO6rwaNdaqq'),
+('Ana', 'Rodríguez', 'Av. Larco 321, Miraflores', 'ana.rodriguez@email.com', '$2y$12$UQWdnOugPEJGajuuQ//mmegLL/tf3tzbJDiPRU1uXhOO6rwaNdaqq'),
+('Yuliett', 'Lorusso', 'Calle 20 #654, San Isidro', 'yuliett.lorusso@email.com', '$2y$12$UQWdnOugPEJGajuuQ//mmegLL/tf3tzbJDiPRU1uXhOO6rwaNdaqq');
 
 INSERT INTO `order` (id_user, payment_status, shipping_status, total_price) VALUES 
-(1, 'entregado', 45.50),
-(2, 'procesando', 89.99),
-(3, 'pendiente', 125.48),
-(4, 'entregado', 32.99),
-(5, 'enviado', 198.50);
+(1, 'paid',     'delivered',  184.94),
+(2, 'paid',     'shipped',    269.96),
+(3, 'pending',  'processing', 395.93),
+(4, 'paid',     'delivered',  201.95),
+(5, 'paid',     'shipped',    396.86);
 
 INSERT INTO order_item (id_order, id_product, quantity, price) VALUES 
 (1, 1, 2, 19.99),

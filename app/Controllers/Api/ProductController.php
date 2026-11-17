@@ -41,12 +41,12 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show($name)
+    public function show()
     {
         if ($_SERVER['REQUEST_METHOD'] != 'GET') $this->errorMethodNotAllowed();
-        if (!isset($name)) $this->errorBadRequest('Nombre requerido');
-
-        $products = $this->product->getByName($name);
+        // if (!isset($name)) $this->errorBadRequest('Nombre requerido');
+        if (!isset($_GET['search'])) $this->errorBadRequest('Parámetro de búsqueda requerido');
+        $products = $this->product->getByName($_GET['search']);
 
         header('Content-Type: application/json');
         echo json_encode([

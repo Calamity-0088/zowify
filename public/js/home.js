@@ -10,11 +10,11 @@ const getAll = async () => {
     try {
         if (category) {
             response = await axios.get(category === 'offers'
-                ? '/workspace_php/zowify/public/Api/Product/indexOffers'
-                : `/workspace_php/zowify/public/Api/Product/showCategory/${category}`
+                ? '/Api/Product/indexOffers'
+                : `/Api/Product/showCategory/${category}`
             );
         } else {
-            response = await axios.get('/workspace_php/zowify/public/Api/Product/index');
+            response = await axios.get('/Api/Product/index');
         }
 
         json = response.data.data;
@@ -32,7 +32,7 @@ const getAll = async () => {
         const $clone = d.importNode($template, true);
 
         $clone.querySelector('.card').dataset.id = product.id;
-        $clone.querySelector('.card__main').href = `/workspace_php/zowify/public/product?id=${product.id}`;
+        $clone.querySelector('.card__main').href = `/product?id=${product.id}`;
         $clone.querySelector('.card__img').src = `images/${product.image}`;
         $clone.querySelector('.card__text').textContent = product.title;
         $clone.querySelector('.card__discount').textContent = `-${product.discount}%`
@@ -61,19 +61,19 @@ d.addEventListener('click', async e => {
                 id,
                 quantity: 1
             }
-            await axios.post('/workspace_php/zowify/public/Api/Cart/store', data);
+            await axios.post('/Api/Cart/store', data);
             alert('Producto añadido al carrito.')
         }
 
         if ($increaseButton || $decreaseButton) {
-            const response = await axios.get(`/workspace_php/zowify/public/Api/Cart/show/${id}`);
+            const response = await axios.get(`/Api/Cart/show/${id}`);
             let quantity = response.data?.data?.quantity;
 
             if (!quantity) return;
 
             $increaseButton ? quantity++ : quantity--;
 
-            await axios.post(`/workspace_php/zowify/public/Api/Cart/update/${id}`, { quantity });
+            await axios.post(`/Api/Cart/update/${id}`, { quantity });
             getAll();
         }
     } catch (err) {

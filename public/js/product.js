@@ -7,8 +7,8 @@ const getAll = async () => {
     let product,
         productCart;
     try {
-        const response = await axios.get(`/workspace_php/zowify/public/Api/Product/showId/${id}`);
-        const responseCart = await axios.get(`/workspace_php/zowify/public/Api/Cart/show/${id}`);
+        const response = await axios.get(`/Api/Product/showId/${id}`);
+        const responseCart = await axios.get(`/Api/Cart/show/${id}`);
         product = response.data.data;
         productCart = responseCart.data.data;
     } catch (err) {
@@ -21,7 +21,7 @@ const getAll = async () => {
 
     d.title = `Zowify | ${product.title}`;
     d.querySelector('.product').dataset.id = product.id;
-    d.querySelector('.product__info').href = `/workspace_php/zowify/public/product?id=${product.id}`;
+    d.querySelector('.product__info').href = `/product?id=${product.id}`;
     d.querySelector('.product__img').src = `images/${product.image}`;
     d.querySelector('.product__title').textContent = product.title;
     d.querySelector('.product__vendor').innerHTML = `Vendido por: <a href="#">Zowify</a>`;
@@ -62,7 +62,7 @@ d.addEventListener('click', async e => {
 
     try {
         if ($addToCartButton) {
-            const response = await axios.get(`/workspace_php/zowify/public/Api/Cart/show/${id}`);
+            const response = await axios.get(`/Api/Cart/show/${id}`);
             const quantity = response?.data?.data?.quantity;
             const action = configureCartButton(quantity);
 
@@ -74,10 +74,10 @@ d.addEventListener('click', async e => {
             };
 
             if (action == 'add') {
-                await axios.post('/workspace_php/zowify/public/Api/Cart/store', data);
+                await axios.post('/Api/Cart/store', data);
                 alert('Producto agregado al carrito');
             } else if (action == 'delete') {
-                await axios.delete(`/workspace_php/zowify/public/Api/Cart/destroy/${id}`);
+                await axios.delete(`/Api/Cart/destroy/${id}`);
                 alert('Producto eliminado del carrito');
             }
 
@@ -88,9 +88,9 @@ d.addEventListener('click', async e => {
         d.querySelector('.product__quantity').value = $counter;
 
         //* Si el nombre de la clave coincide con el nombre del valor, no se necesita escribirla dos veces.
-        await axios.post(`/workspace_php/zowify/public/Api/Cart/update/${id}`, { quantity: $counter });
+        await axios.post(`/Api/Cart/update/${id}`, { quantity: $counter });
 
-        const response = await axios.get(`/workspace_php/zowify/public/Api/Cart/show/${id}`);
+        const response = await axios.get(`/Api/Cart/show/${id}`);
         const currentQuantity = response?.data?.data?.quantity;
 
         configureCartButton(currentQuantity);

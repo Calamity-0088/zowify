@@ -29,7 +29,7 @@ d.addEventListener('click', async e => {
 
     if ($searchButton) {
         const query = d.querySelector('.header__input').value;
-        window.location.href = `/workspace_php/zowify/public/search?q=${query}`;
+        window.location.href = `/search?q=${query}`;
     }
 
     if ($closeButton) {
@@ -51,7 +51,7 @@ d.addEventListener('click', async e => {
 
     if ($logoutButton) {
         try {
-            await axios.post('/workspace_php/zowify/public/Api/Auth/logout');
+            await axios.post('/Api/Auth/logout');
             location.reload();
         } catch (err) {
             console.error(err.response
@@ -88,7 +88,7 @@ d.addEventListener('submit', async e => {
     e.preventDefault();
 
     try {
-        await axios.post(`/workspace_php/zowify/public/Api/Auth/${action}`, data);
+        await axios.post(`/Api/Auth/${action}`, data);
         $modal.close();
         location.reload();
     } catch (err) {

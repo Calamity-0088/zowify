@@ -7,14 +7,13 @@ const $productTable = d.querySelector('.products'),
 const getAll = async () => {
     const $fragment = d.createDocumentFragment(),
         params = new URLSearchParams(window.location.search),
-        name = params.get('q');
+        search = params.get('q');
     let json;
 
     try {
-        const res = await axios.get(name
-            ? `/workspace_php/zowify/public/Api/Product/show/${name}`
-            : '/workspace_php/zowify/public/Api/Product/index'
-        );
+        const url = search ? `/Api/Product/show` : `/Api/Product/index`;
+
+        const res = await axios.get(url, search ? { params: { search } } : {});
         json = res.data.data;
     } catch (err) {
         console.error(err.response
@@ -62,10 +61,10 @@ d.addEventListener('submit', async e => {
 
     try {
         if (!id) {
-            await axios.post('/workspace_php/zowify/public/Api/Product/store', formData);
+            await axios.post('/Api/Product/store', formData);
             message = 'Producto agregado correctamente';
         } else {
-            await axios.post(`/workspace_php/zowify/public/Api/Product/update/${id}`, formData);
+            await axios.post(`/Api/Product/update/${id}`, formData);
             message = 'Producto actualizado correctamente';
         }
 
@@ -88,7 +87,7 @@ d.addEventListener('click', async e => {
 
     if ($searchButton) {
         const searchValue = d.querySelector('.inventory__input').value;
-        window.location.href = `/workspace_php/zowify/public/admin?q=${searchValue}`;
+        window.location.href = `/admin?q=${searchValue}`;
     }
 
     if ($addButton) {
@@ -118,7 +117,7 @@ d.addEventListener('click', async e => {
 
         if (isDelete) {
             try {
-                await axios.delete(`/workspace_php/zowify/public/Api/Product/destroy/${id}`);
+                await axios.delete(`/Api/Product/destroy/${id}`);
                 getAll();
 
             } catch (err) {

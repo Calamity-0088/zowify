@@ -33,8 +33,11 @@ class Router
 
     public function route()
     {
-        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $request = str_replace('/workspace_php/zowify/public', '', $path);
+        /* $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $request = str_replace('/workspace_php/zowify/public', '', $path); */
+
+        //* PHP_URL_PATH (Parámetro que permite a parse_url devolver el path de la url, sin dominio ni variables.)
+        $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
         if ($request === '' || $request === '/') $request = '/home';
 

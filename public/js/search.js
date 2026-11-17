@@ -3,12 +3,13 @@ const $main = d.querySelector('.main'),
 
 d.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search),
-        query = params.get('q'),
+        search = params.get('q'),
         $fragment = d.createDocumentFragment();
     let json;
 
     try {
-        const response = await axios.get(`/workspace_php/zowify/public/Api/Product/show/${query}`);
+        const url = search ? '/Api/Product/show' : '/Api/Product/index';
+        const response = await axios.get(url, search ? { params: { search } } : {});
         json = response.data.data;
     } catch (err) {
         console.error(err.response
@@ -24,7 +25,7 @@ d.addEventListener('DOMContentLoaded', async () => {
             finalPrice = (product.price - discount).toFixed(2);
 
         $clone.querySelector('.card').dataset.id = product.id;
-        $clone.querySelector('.card__main').href = `/workspace_php/zowify/public/product?id=${product.id}`;
+        $clone.querySelector('.card__main').href = `/product?id=${product.id}`;
         $clone.querySelector('.card__img').src = `images/${product.image}`;
         $clone.querySelector('.card__text').textContent = product.title;
         $clone.querySelector('.card__discount').textContent = `-${product.discount}%`

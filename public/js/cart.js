@@ -9,8 +9,8 @@ const getAll = async () => {
     let cartJson, summary;
 
     try {
-        const cartResponse = await axios.get('/workspace_php/zowify/public/Api/Cart/index');
-        const summaryResponse = await axios.get('/workspace_php/zowify/public/Api/Order/store');
+        const cartResponse = await axios.get('/Api/Cart/index');
+        const summaryResponse = await axios.get('/Api/Order/store');
         cartJson = cartResponse.data.data;
         summary = summaryResponse.data.data;
     } catch (err) {
@@ -62,16 +62,16 @@ d.addEventListener("click", async e => {
     let quantity;
 
     try {
-        const response = await axios.get(`/workspace_php/zowify/public/Api/Cart/show/${id}`);
+        const response = await axios.get(`/Api/Cart/show/${id}`);
         quantity = response.data?.data?.quantity;
 
         if ($removeButton) {
-            await axios.delete(`/workspace_php/zowify/public/Api/Cart/destroy/${id}`);
+            await axios.delete(`/Api/Cart/destroy/${id}`);
             return getAll();
         }
 
         $increaseButton ? quantity++ : quantity--;
-        await axios.post(`/workspace_php/zowify/public/Api/Cart/update/${id}`, { quantity: quantity });
+        await axios.post(`/Api/Cart/update/${id}`, { quantity: quantity });
         getAll();
     } catch (err) {
         console.error(err.response

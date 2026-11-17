@@ -37,7 +37,7 @@ const renderCardPaymentBrick = async (bricksBuilder) => {
                 //  ejemplo de envío de los datos recolectados por el Brick a su servidor
                 return new Promise(async (resolve, reject) => {
                     try {
-                        response = await axios.post("/workspace_php/zowify/public/Api/Payment/store", cardFormData);
+                        response = await axios.post("/Api/Payment/store", cardFormData);
                         resolve();
                         console.log(response);
                         window.cardPaymentBrickController.unmount();

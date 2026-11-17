@@ -2,7 +2,7 @@
     <div class="header__search">
         <ul class="header__ul">
             <li class="header__item">
-                <a class="header__button header__button--logo" href="/workspace_php/zowify/public/home">
+                <a class="header__button header__button--logo" href="/home">
                     <img class="header__logo" src="images/zowify_logo.png" alt="">
                 </a>
             </li>
@@ -13,13 +13,13 @@
                 </button>
             </li>
             <li class="header__item">
-                <a class="header__button" href="/workspace_php/zowify/public/orders">
+                <a class="header__button" href="/orders">
                     <i class="header__icon fa-solid fa-box-open"></i>
                     <span class="header__text">Mis pedidos</span>
                 </a>
             </li>
             <li class="header__item">
-                <a class="header__button header__button--cart" href="/workspace_php/zowify/public/cart">
+                <a class="header__button header__button--cart" href="/cart">
                     <i class="header__icon fa-solid fa-bag-shopping"></i>
                     <span class="header__text">Mi carrito</span>
                 </a>
@@ -34,7 +34,7 @@
 
                     <ul class="dropdown">
                         <li class="dropdown__item">
-                            <a href="/workspace_php/zowify/public/profile" class="dropdown__button">
+                            <a href="/profile" class="dropdown__button">
                                 <i class="dropdown__icon fa-solid fa-address-card"></i>
                                 <span class="dropdown__text">Mi perfil</span>
                             </a>
@@ -58,52 +58,52 @@
     <nav class="header__nav">
         <ul class="header__ul">
             <li class="header__category">
-                <a class="header__button" href="/workspace_php/zowify/public/home">
+                <a class="header__button" href="/home">
                     <span class="header__text">Inicio</span>
                 </a>
             </li>
             <li class="header__category">
-                <a class="header__button" href="/workspace_php/zowify/public/home?category=offers">
+                <a class="header__button" href="/home?category=offers">
                     <span class="header__text">Ofertas</span>
                 </a>
             </li>
             <li class="header__category">
-                <a class="header__button" href="/workspace_php/zowify/public/home?category=1">
+                <a class="header__button" href="/home?category=1">
                     <span class="header__text">Hombre</span>
                 </a>
             </li>
             <li class="header__category">
-                <a class="header__button" href="/workspace_php/zowify/public/home?category=2">
+                <a class="header__button" href="/home?category=2">
                     <span class="header__text">Mujer</span>
                 </a>
             </li>
             <li class="header__category">
-                <a class="header__button" href="/workspace_php/zowify/public/home?category=4">
+                <a class="header__button" href="/home?category=4">
                     <span class="header__text">Calzado</span>
                 </a>
             </li>
             <li class="header__category">
-                <a class="header__button" href="/workspace_php/zowify/public/home?category=5">
+                <a class="header__button" href="/home?category=5">
                     <span class="header__text">Accesorios</span>
                 </a>
             </li>
             <li class="header__category">
-                <a class="header__button" href="/workspace_php/zowify/public/home?category=7">
+                <a class="header__button" href="/home?category=7">
                     <span class="header__text">Belleza</span>
                 </a>
             </li>
             <li class="header__category">
-                <a class="header__button" href="/workspace_php/zowify/public/home?category=8">
+                <a class="header__button" href="/home?category=8">
                     <span class="header__text">Joyería</span>
                 </a>
             </li>
             <li class="header__category">
-                <a class="header__button" href="/workspace_php/zowify/public/home?category=9">
+                <a class="header__button" href="/home?category=9">
                     <span class="header__text">Perfumes</span>
                 </a>
             </li>
             <li class="header__category">
-                <a class="header__button" href="/workspace_php/zowify/public/home?category=11">
+                <a class="header__button" href="/home?category=11">
                     <span class="header__text">Otros</span>
                 </a>
             </li>

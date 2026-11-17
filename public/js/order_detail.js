@@ -9,7 +9,7 @@ const getAll = async () => {
         items;
 
     try {
-        const response = await axios.get(`/workspace_php/zowify/public/Api/Order/show/${id}`);
+        const response = await axios.get(`/Api/Order/show/${id}`);
         data = response.data.data;
         items = response.data.data.items;
     } catch (err) {

@@ -9,7 +9,7 @@ let user;
 
 const getUser = async () => {
     try {
-        const response = await axios.get('/workspace_php/zowify/public/Api/User/showById');
+        const response = await axios.get('/Api/User/showById');
         user = response.data.data;
     } catch (err) {
         console.error(err.response
@@ -52,7 +52,7 @@ d.addEventListener('submit', async e => {
     }
 
     try {
-        await axios.post('/workspace_php/zowify/public/Api/User/update', data);
+        await axios.post('/Api/User/update', data);
         getUser();
         $modal.close();
     } catch (err) {
