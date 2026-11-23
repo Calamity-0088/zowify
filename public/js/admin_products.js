@@ -11,10 +11,8 @@ const getAll = async () => {
     let json;
 
     try {
-        const url = search ? `/Api/Product/show` : `/Api/Product/index`;
-
-        const res = await axios.get(url, search ? { params: { search } } : {});
-        json = res.data.data;
+        const response = await axios.get(`/Api/Product/index`, { params: { name: search ?? undefined } });
+        json = response.data.data;
     } catch (err) {
         console.error(err.response
             ? `${err.response.statusText}\n${err.response.data.error}`

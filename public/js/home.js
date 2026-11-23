@@ -1,34 +1,32 @@
 const $main = d.querySelector('.main'),
     $template = d.querySelector('.template').content;
 
-const getAll = async () => {
-    const $fragment = d.createDocumentFragment(),
-        params = new URLSearchParams(window.location.search),
+const loadProducts = async () => {
+    const params = new URLSearchParams(window.location.search),
         category = params.get('category');
-    let response, json;
 
     try {
-        if (category) {
-            response = await axios.get(category === 'offers'
-                ? '/Api/Product/indexOffers'
-                : `/Api/Product/showCategory/${category}`
-            );
-        } else {
-            response = await axios.get('/Api/Product/index');
-        }
-
-        json = response.data.data;
+        const products = await fetchProducts(category);
+        renderProducts(products);
     } catch (err) {
         console.error(err.response
             ? `${err.response.statusText}\n${err.response.data.error}`
             : err
         );
-        return;
     }
+};
+
+const fetchProducts = async (category) => {
+    const response = await axios.get('/Api/Product/index', { params: { category: category ?? undefined } });
+    return response.data.data;
+};
+
+const renderProducts = (products) => {
+    const $fragment = d.createDocumentFragment();
 
     $main.replaceChildren();
 
-    json.forEach(product => {
+    products.forEach(product => {
         const $clone = d.importNode($template, true);
 
         $clone.querySelector('.card').dataset.id = product.id;
@@ -41,10 +39,24 @@ const getAll = async () => {
         $clone.querySelector('.card__final').textContent = `S/ ${(product.price - discount).toFixed(2)}`;
         $fragment.appendChild($clone);
     });
+
     $main.appendChild($fragment);
+};
+
+const addToCart = async (productId) => {
+    const response = await axios.post('/Api/Cart/store', {
+        product_id: productId,
+        quantity: 1,
+    });
+    return response.data.message;
 }
 
-d.addEventListener('DOMContentLoaded', getAll);
+
+const updateCounter = async (productId, action) => {
+    return await axios.post(`/Api/Cart/update/${productId}`, { action });
+}
+
+d.addEventListener('DOMContentLoaded', loadProducts);
 
 d.addEventListener('click', async e => {
     const $addToCartButton = e.target.closest('.card__cart--add'),
@@ -53,28 +65,18 @@ d.addEventListener('click', async e => {
         $product = e.target.closest('.card');
 
     if (!$product) return;
-    const id = $product.dataset.id;
+    const productId = $product.dataset.id;
 
     try {
         if ($addToCartButton) {
-            const data = {
-                id,
-                quantity: 1
-            }
-            await axios.post('/Api/Cart/store', data);
-            alert('Producto añadido al carrito.')
+            const message = await addToCart(productId);
+            alert(message);
         }
 
         if ($increaseButton || $decreaseButton) {
-            const response = await axios.get(`/Api/Cart/show/${id}`);
-            let quantity = response.data?.data?.quantity;
-
-            if (!quantity) return;
-
-            $increaseButton ? quantity++ : quantity--;
-
-            await axios.post(`/Api/Cart/update/${id}`, { quantity });
-            getAll();
+            const action = $increaseButton ? 'increase' : 'decrease';
+            await updateCounter(productId, action);
+            loadProducts();
         }
     } catch (err) {
         console.error(err.response

@@ -15,11 +15,14 @@ class ProductController extends Controller
         $this->product = new Product($db);
     }
 
-    public function index()
+    public function index(): void
     {
         if ($_SERVER['REQUEST_METHOD'] != 'GET') $this->errorMethodNotAllowed();
 
-        $products = $this->product->getAll();
+        $products = $this->product->getAll([
+            'name' => $_GET['name'] ?? null,
+            'category' => $_GET['category'] ?? null,
+        ]);
 
         header('Content-Type: application/json');
         echo json_encode([
@@ -28,62 +31,21 @@ class ProductController extends Controller
         ]);
     }
 
-    public function indexOffers()
-    {
-        if ($_SERVER['REQUEST_METHOD'] != 'GET') $this->errorMethodNotAllowed();
-
-        $products = $this->product->getOffer();
-
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => true,
-            'data' => $products
-        ]);
-    }
-
-    public function show()
-    {
-        if ($_SERVER['REQUEST_METHOD'] != 'GET') $this->errorMethodNotAllowed();
-        // if (!isset($name)) $this->errorBadRequest('Nombre requerido');
-        if (!isset($_GET['search'])) $this->errorBadRequest('Parámetro de búsqueda requerido');
-        $products = $this->product->getByName($_GET['search']);
-
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => true,
-            'data' => $products
-        ]);
-    }
-
-    public function showCategory($category)
-    {
-        if ($_SERVER['REQUEST_METHOD'] != 'GET') $this->errorMethodNotAllowed();
-        if (!isset($category)) $this->errorBadRequest('Categoría requerida');
-
-        $products = $this->product->getByCategory($category);
-
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => true,
-            'data' => $products
-        ]);
-    }
-
-    public function showId($id)
+    public function show($id): void
     {
         if ($_SERVER['REQUEST_METHOD'] != 'GET') $this->errorMethodNotAllowed();
         if (!isset($id) || !is_numeric($id)) $this->errorBadRequest('ID requerido y debe ser numérico');
 
-        $products = $this->product->getById($id);
+        $product = $this->product->find($id);
 
         header('Content-Type: application/json');
         echo json_encode([
             'success' => true,
-            'data' => $products
+            'data' => $product->attributes,
         ]);
     }
 
-    public function store()
+    public function store(): void
     {
         $requiredFields = ['title', 'description', 'price', 'stock', 'category_id'];
 
@@ -118,7 +80,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update($id)
+    public function update($id): void
     {
         $requiredFields = ['title', 'description', 'price', 'stock', 'category_id'];
 
@@ -155,7 +117,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function destroy($id): void
     {
         if ($_SERVER['REQUEST_METHOD'] != 'DELETE') $this->errorMethodNotAllowed();
         if (!isset($id) || !is_numeric($id)) $this->errorBadRequest('ID requerido y debe ser numérico');

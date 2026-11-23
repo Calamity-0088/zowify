@@ -7,7 +7,7 @@ const getAll = async () => {
     let product,
         productCart;
     try {
-        const response = await axios.get(`/Api/Product/showId/${id}`);
+        const response = await axios.get(`/Api/Product/show/${id}`);
         const responseCart = await axios.get(`/Api/Cart/show/${id}`);
         product = response.data.data;
         productCart = responseCart.data.data;

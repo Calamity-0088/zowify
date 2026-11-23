@@ -28,7 +28,7 @@ class OrderController extends Controller
 
         foreach ($orderData as $order) {
             $orderId = $order['id_order'];
-            $product = $this->product->getById($order['id_product']);
+            $product = $this->product->find($order['id_product']);
 
             if (!isset($info[$orderId])) {
                 $info[$orderId] = [
@@ -70,7 +70,7 @@ class OrderController extends Controller
 
         foreach ($orderData as $order) {
             $orderId = $order['id_order'];
-            $product = $this->product->getById($order['id_product']);
+            $product = $this->product->find($order['id_product']);
 
             if (!isset($info)) {
                 $info = [

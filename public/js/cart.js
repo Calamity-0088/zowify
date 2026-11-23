@@ -6,13 +6,13 @@ const $cartContainer = d.querySelector('.cart__content'),
 
 const getAll = async () => {
     const $fragment = d.createDocumentFragment();
-    let cartJson, summary;
+    let cartJson, totals;
 
     try {
-        const cartResponse = await axios.get('/Api/Cart/index');
-        const summaryResponse = await axios.get('/Api/Order/store');
-        cartJson = cartResponse.data.data;
-        summary = summaryResponse.data.data;
+        const response = await axios.get('/Api/Cart/index');
+        cartJson = response.data.data;
+        totals = response.data.totals;
+        console.log(response);
     } catch (err) {
         console.error(err.response
             ? `${err.response.statusText}\n${err.response.data.error}`
@@ -28,17 +28,25 @@ const getAll = async () => {
         $clone.querySelector('.cart__product').dataset.id = product.id;
         $clone.querySelector('.cart__img').src = `images/${product.image}`;
         $clone.querySelector('.cart__name').textContent = product.title;
-        $clone.querySelector('.cart__price').innerHTML = `<strong>S/ ${product.price}</strong>`;
+        $clone.querySelector('.cart__price').innerHTML = `<strong>${formatPrice(product.final_price)}</strong>`;
         $clone.querySelector('.cart__quantity').textContent = `Cantidad: ${product.quantity}`;
         $fragment.appendChild($clone);
     });
 
     $cartContainer.appendChild($fragment);
 
-    $summaryProducts.querySelector('.summary__text').textContent = `Productos (${summary.total_products})`;
-    $summaryProducts.querySelector('.summary__value').textContent = `S/ ${summary.total}`;
-    $summaryDiscount.querySelector('.summary__value').textContent = `S/ ${summary.discount}`;
-    $summaryTotal.querySelector('.summary__value').textContent = `S/ ${summary.final_price}`;
+    $summaryProducts.querySelector('.summary__text').textContent = `Productos (${totals.total_quantity})`;
+    $summaryProducts.querySelector('.summary__value').textContent = `${formatPrice(totals.total_base)}`;
+    $summaryDiscount.querySelector('.summary__value').textContent = `${formatPrice(totals.total_discount)}`;
+    $summaryTotal.querySelector('.summary__value').textContent = `${formatPrice(totals.subtotal)}`;
+
+}
+
+const formatPrice = (price) => {
+    return new Intl.NumberFormat('es-PE', {
+        style: 'currency',
+        currency: 'PEN'
+    }).format(price);
 }
 
 d.addEventListener("DOMContentLoaded", getAll);
@@ -48,6 +56,7 @@ d.addEventListener("click", async e => {
         $increaseButton = e.target.closest('.cart__button--increase'),
         $decreaseButton = e.target.closest('.cart__button--decrease'),
         $product = e.target.closest('.cart__product'),
+        $itemButtons = e.target.closest('.cart__group'),
         $paymentButton = e.target.closest('.summary__buy');
 
     if ($paymentButton) {
@@ -55,8 +64,7 @@ d.addEventListener("click", async e => {
         $modal.showModal();
     }
 
-    //* Verifica si el elemento clickeado no es un producto
-    if (!$product) return;
+    if (!$product || !$itemButtons) return;
 
     const id = $product.dataset.id;
     let quantity;

@@ -6,7 +6,7 @@ class User extends Model
 {
     public function create($data)
     {
-        $stmt = $this->db->prepare("INSERT INTO user (first_name, last_name, address, email, password) VALUES (:first_name, :last_name, :address, :email, :password)");
+        $stmt = $this->conn->prepare("INSERT INTO user (first_name, last_name, address, email, password) VALUES (:first_name, :last_name, :address, :email, :password)");
         $stmt->execute([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
@@ -20,7 +20,7 @@ class User extends Model
 
     public function getAll()
     {
-        $stmt = $this->db->prepare("SELECT * FROM user WHERE deleted_at IS NULL");
+        $stmt = $this->conn->prepare("SELECT * FROM user WHERE deleted_at IS NULL");
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -28,7 +28,7 @@ class User extends Model
 
     public function getById($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM user WHERE id = :id AND deleted_at IS NULL");
+        $stmt = $this->conn->prepare("SELECT * FROM user WHERE id = :id AND deleted_at IS NULL");
         $stmt->execute(['id' => $id]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -36,7 +36,7 @@ class User extends Model
 
     public function getByEmail($email)
     {
-        $stmt = $this->db->prepare("SELECT * FROM user WHERE email = :email AND deleted_at IS NULL");
+        $stmt = $this->conn->prepare("SELECT * FROM user WHERE email = :email AND deleted_at IS NULL");
         $stmt->execute(['email' => $email]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -44,7 +44,7 @@ class User extends Model
 
     public function getByEmailExceptMe($email, $id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM user WHERE email = :email AND id != :id AND deleted_at IS NULL");
+        $stmt = $this->conn->prepare("SELECT * FROM user WHERE email = :email AND id != :id AND deleted_at IS NULL");
         $stmt->execute([
             'email' => $email,
             'id' => $id
@@ -65,7 +65,7 @@ class User extends Model
             }
         }
 
-        $stmt = $this->db->prepare("UPDATE user SET " . implode(', ', $fields) . " WHERE id = :id");
+        $stmt = $this->conn->prepare("UPDATE user SET " . implode(', ', $fields) . " WHERE id = :id");
         $stmt->execute($params);
 
         return $stmt->rowCount();
@@ -73,7 +73,7 @@ class User extends Model
 
     public function delete($id)
     {
-        $stmt = $this->db->prepare("UPDATE user SET deleted_at = NOW() WHERE id = :id");
+        $stmt = $this->conn->prepare("UPDATE user SET deleted_at = NOW() WHERE id = :id");
         $stmt->execute(['id' => $id]);
 
         return $stmt->rowCount();
