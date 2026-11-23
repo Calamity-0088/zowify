@@ -49,6 +49,10 @@ const formatPrice = (price) => {
     }).format(price);
 }
 
+const updateCounter = async (productId, action) => {
+    return await axios.post(`/Api/Cart/update/${productId}`, { action });
+}
+
 d.addEventListener("DOMContentLoaded", getAll);
 
 d.addEventListener("click", async e => {
@@ -66,21 +70,24 @@ d.addEventListener("click", async e => {
 
     if (!$product || !$itemButtons) return;
 
-    const id = $product.dataset.id;
+    const productId = $product.dataset.id;
     let quantity;
 
     try {
-        const response = await axios.get(`/Api/Cart/show/${id}`);
+        const response = await axios.get(`/Api/Cart/show/${productId}`);
         quantity = response.data?.data?.quantity;
 
         if ($removeButton) {
-            await axios.delete(`/Api/Cart/destroy/${id}`);
+            await axios.delete(`/Api/Cart/destroy/${productId}`);
             return getAll();
         }
 
-        $increaseButton ? quantity++ : quantity--;
-        await axios.post(`/Api/Cart/update/${id}`, { quantity: quantity });
-        getAll();
+        if ($increaseButton || $decreaseButton) {
+            const action = $increaseButton ? 'increase' : 'decrease';
+            await updateCounter(productId, action);
+            getAll();
+        }
+
     } catch (err) {
         console.error(err.response
             ? `${err.response.statusText}\n${err.response.data.error}`

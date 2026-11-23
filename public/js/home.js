@@ -49,12 +49,12 @@ const addToCart = async (productId) => {
         quantity: 1,
     });
     return response.data.message;
-}
+};
 
 
 const updateCounter = async (productId, action) => {
     return await axios.post(`/Api/Cart/update/${productId}`, { action });
-}
+};
 
 d.addEventListener('DOMContentLoaded', loadProducts);
 
