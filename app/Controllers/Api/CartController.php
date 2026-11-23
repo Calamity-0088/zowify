@@ -103,7 +103,10 @@ class CartController extends Controller
                 $data['action'] === 'increase' ? $cartItem['quantity']++ : $cartItem['quantity']--;
                 $cartItem['base_price'] = $product->price * $cartItem['quantity'];
                 $cartItem['final_price'] = $product->calculateUnitFinalPrice() * $cartItem['quantity'];
-                if ($cartItem['quantity'] <= 0) unset($_SESSION['cart'][$key]);
+                if ($cartItem['quantity'] <= 0) {
+                    unset($_SESSION['cart'][$key]);
+                    $_SESSION['cart'] = array_values($_SESSION['cart']);
+                }
             }
         }
 
