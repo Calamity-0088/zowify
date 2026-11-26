@@ -78,8 +78,8 @@
     <?php require_once('includes/profile_modal.php'); ?>
 
     <script src="https://cdn.jsdelivr.net/npm/axios@1.13.2/dist/axios.min.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/profile.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/profile.js"></script>
 </body>
 
 </html>

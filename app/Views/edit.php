@@ -72,8 +72,8 @@
     </template>
 
     <script src="https://cdn.jsdelivr.net/npm/axios@1.13.2/dist/axios.min.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/admin_products.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/admin_products.js"></script>
 </body>
 
 </html>

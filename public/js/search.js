@@ -1,10 +1,10 @@
-const $main = d.querySelector('.main'),
-    $template = d.querySelector('.template').content;
+const $main = document.querySelector('.main'),
+    $template = document.querySelector('.template').content;
 
-d.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search),
         search = params.get('q'),
-        $fragment = d.createDocumentFragment();
+        $fragment = document.createDocumentFragment();
     let json;
 
     try {
@@ -19,7 +19,7 @@ d.addEventListener('DOMContentLoaded', async () => {
     }
 
     json.forEach(product => {
-        const $clone = d.importNode($template, true);
+        const $clone = document.importNode($template, true);
         const discount = (product.price * product.discount) / 100,
             finalPrice = (product.price - discount).toFixed(2);
 

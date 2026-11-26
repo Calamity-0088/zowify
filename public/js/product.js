@@ -1,4 +1,4 @@
-const $main = d.querySelector('.main');
+const $main = document.querySelector('.main');
 
 const params = new URLSearchParams(window.location.search),
     id = params.get('id');
@@ -19,25 +19,25 @@ const getAll = async () => {
         return;
     }
 
-    d.title = `Zowify | ${product.title}`;
-    d.querySelector('.product').dataset.id = product.id;
-    d.querySelector('.product__info').href = `/product?id=${product.id}`;
-    d.querySelector('.product__img').src = `images/${product.image}`;
-    d.querySelector('.product__title').textContent = product.title;
-    d.querySelector('.product__vendor').innerHTML = `Vendido por: <a href="#">Zowify</a>`;
-    d.querySelector('.product__description').textContent = product.description;
-    d.querySelector('.product__discount').textContent = `-${product.discount}%`
-    d.querySelector('.product__total').innerHTML = `<s>S/ ${product.price}</s>`;
+    document.title = `Zowify | ${product.title}`;
+    document.querySelector('.product').dataset.id = product.id;
+    document.querySelector('.product__info').href = `/product?id=${product.id}`;
+    document.querySelector('.product__img').src = `images/${product.image}`;
+    document.querySelector('.product__title').textContent = product.title;
+    document.querySelector('.product__vendor').innerHTML = `Vendido por: <a href="#">Zowify</a>`;
+    document.querySelector('.product__description').textContent = product.description;
+    document.querySelector('.product__discount').textContent = `-${product.discount}%`
+    document.querySelector('.product__total').innerHTML = `<s>S/ ${product.price}</s>`;
     const discount = (product.price * product.discount) / 100;
-    d.querySelector('.product__final').textContent = `S/ ${(product.price - discount).toFixed(2)}`;
-    d.querySelector('.product__code').textContent = `Código: ${product.id}`;
-    d.querySelector('.product__quantity').value = productCart?.quantity || 0;
+    document.querySelector('.product__final').textContent = `S/ ${(product.price - discount).toFixed(2)}`;
+    document.querySelector('.product__code').textContent = `Código: ${product.id}`;
+    document.querySelector('.product__quantity').value = productCart?.quantity || 0;
 
     configureCartButton(productCart?.quantity || 0);
 }
 
 const configureCartButton = ($quantity) => {
-    const $addToCartButton = d.querySelector('.product__cart--add');
+    const $addToCartButton = document.querySelector('.product__cart--add');
 
     if ($quantity > 0) {
         $addToCartButton.textContent = 'Eliminar producto';
@@ -48,14 +48,14 @@ const configureCartButton = ($quantity) => {
     }
 }
 
-d.addEventListener('DOMContentLoaded', getAll);
+document.addEventListener('DOMContentLoaded', getAll);
 
-d.addEventListener('click', async e => {
+document.addEventListener('click', async e => {
     const $addToCartButton = e.target.closest('.product__cart--add'),
         $increaseButton = e.target.closest('.product__cart--increase'),
         $decreaseButton = e.target.closest('.product__cart--decrease');
 
-    let $counter = d.querySelector('.product__quantity').value;
+    let $counter = document.querySelector('.product__quantity').value;
     let data;
 
     if (!$addToCartButton && !$increaseButton && !$decreaseButton || !id) return;
@@ -85,7 +85,7 @@ d.addEventListener('click', async e => {
         }
 
         $increaseButton ? $counter++ : $counter--;
-        d.querySelector('.product__quantity').value = $counter;
+        document.querySelector('.product__quantity').value = $counter;
 
         //* Si el nombre de la clave coincide con el nombre del valor, no se necesita escribirla dos veces.
         await axios.post(`/Api/Cart/update/${id}`, { quantity: $counter });

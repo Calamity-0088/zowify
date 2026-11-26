@@ -1,8 +1,8 @@
-const $template = d.querySelector('.template').content,
-    $main = d.querySelector('.main');
+const $template = document.querySelector('.template').content,
+    $main = document.querySelector('.main');
 let json;
 const getOrder = async () => {
-    const $fragment = d.createDocumentFragment();
+    const $fragment = document.createDocumentFragment();
 
     try {
         const response = await axios.get('/Api/Order/index');
@@ -16,7 +16,7 @@ const getOrder = async () => {
     }
 
     json.forEach(order => {
-        const $clone = d.importNode($template, true);
+        const $clone = document.importNode($template, true);
 
         $clone.querySelector('.order').dataset.id = order.id;
         $clone.querySelector('.order__main').href = `/detail?id=${order.id}`;
@@ -29,4 +29,4 @@ const getOrder = async () => {
     $main.appendChild($fragment);
 }
 
-d.addEventListener('DOMContentLoaded', getOrder);
+document.addEventListener('DOMContentLoaded', getOrder);

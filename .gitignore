@@ -2,5 +2,6 @@
 .env
 
 #* Lista de carpetas ignoradas
+/node_modules
 /vendor
 /public/images

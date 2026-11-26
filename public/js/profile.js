@@ -1,10 +1,13 @@
-const $userName = d.querySelector('.profile__name .profile__value'),
-    $userAddress = d.querySelector('.profile__address .profile__value'),
-    $userEmail = d.querySelector('.profile__email .profile__value'),
-    $userPassword = d.querySelector('.profile__password .profile__value'),
-    $userCreated = d.querySelector('.profile__created .profile__value'),
-    $userUpdated = d.querySelector('.profile__updated .profile__value'),
-    $editButton = d.querySelector('.profile__button');
+import { closeModal, openModal } from "./modules/modal.js";
+
+const $form = document.querySelector('.form');
+const $userName = document.querySelector('.profile__name .profile__value'),
+    $userAddress = document.querySelector('.profile__address .profile__value'),
+    $userEmail = document.querySelector('.profile__email .profile__value'),
+    $userPassword = document.querySelector('.profile__password .profile__value'),
+    $userCreated = document.querySelector('.profile__created .profile__value'),
+    $userUpdated = document.querySelector('.profile__updated .profile__value'),
+    $editButton = document.querySelector('.profile__button');
 let user;
 
 const getUser = async () => {
@@ -27,9 +30,9 @@ const getUser = async () => {
     $userUpdated.textContent = user.updated_at;
 }
 
-d.addEventListener('DOMContentLoaded', getUser);
+document.addEventListener('DOMContentLoaded', getUser);
 
-d.addEventListener('click', e => {
+document.addEventListener('click', e => {
     const $editButton = e.target.closest('.profile__button');
 
     if ($editButton) {
@@ -37,11 +40,11 @@ d.addEventListener('click', e => {
         $form.lastname.value = user.last_name;
         $form.address.value = user.address;
         $form.email.value = user.email;
-        $modal.showModal();
+        openModal();
     }
 });
 
-d.addEventListener('submit', async e => {
+document.addEventListener('submit', async e => {
     e.preventDefault();
     const $form = e.target;
     const data = {
@@ -54,7 +57,7 @@ d.addEventListener('submit', async e => {
     try {
         await axios.post('/Api/User/update', data);
         getUser();
-        $modal.close();
+        closeModal();
     } catch (err) {
         console.error(err.response
             ? `${err.response.statusText}\n${err.response.data.error}`

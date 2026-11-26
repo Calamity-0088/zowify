@@ -1,11 +1,16 @@
-const $productTable = d.querySelector('.products'),
-    $tableBody = d.querySelector('.products__body'),
-    $submitButton = d.querySelector('.form__submit'),
-    $attachment = d.querySelector('.form__file'),
-    $template = d.querySelector('.template').content;
+import { openModal, configModal, closeModal, onModalClose } from "./modules/modal.js";
+
+const $form = document.querySelector('.form');
+const $preview = document.querySelector('.modal__image');
+const $fileName = document.querySelector('.form__label--file');
+const $productTable = document.querySelector('.products'),
+    $tableBody = document.querySelector('.products__body'),
+    $submitButton = document.querySelector('.form__submit'),
+    $attachment = document.querySelector('.form__file'),
+    $template = document.querySelector('.template').content;
 
 const getAll = async () => {
-    const $fragment = d.createDocumentFragment(),
+    const $fragment = document.createDocumentFragment(),
         params = new URLSearchParams(window.location.search),
         search = params.get('q');
     let json;
@@ -24,7 +29,7 @@ const getAll = async () => {
     $tableBody.replaceChildren();
 
     json.forEach(product => {
-        const $clone = d.importNode($template, true);
+        const $clone = document.importNode($template, true);
 
         $clone.querySelector('.products__id').textContent = product.id;
         $clone.querySelector('.products__title').textContent = product.title;
@@ -46,9 +51,9 @@ const getAll = async () => {
     $tableBody.appendChild($fragment);
 }
 
-d.addEventListener('DOMContentLoaded', getAll);
+document.addEventListener('DOMContentLoaded', getAll);
 
-d.addEventListener('submit', async e => {
+document.addEventListener('submit', async e => {
     const formData = new FormData(e.target),
         hasImages = e.target.image.files.length > 0,
         id = e.target.id.value;
@@ -66,7 +71,7 @@ d.addEventListener('submit', async e => {
             message = 'Producto actualizado correctamente';
         }
 
-        $modal.close();
+        closeModal();
         getAll();
         setTimeout(() => alert(message), 100);
     } catch (err) {
@@ -77,26 +82,26 @@ d.addEventListener('submit', async e => {
     }
 });
 
-d.addEventListener('click', async e => {
+document.addEventListener('click', async e => {
     const $searchButton = e.target.closest('.inventory__button--search'),
         $addButton = e.target.closest('.inventory__button--add'),
         $editButton = e.target.closest('.products__button--edit'),
         $deleteButton = e.target.closest('.products__button--delete');
 
     if ($searchButton) {
-        const searchValue = d.querySelector('.inventory__input').value;
+        const searchValue = document.querySelector('.inventory__input').value;
         window.location.href = `/admin?q=${searchValue}`;
     }
 
     if ($addButton) {
-        $modalTitle.textContent = 'Agregar producto';
-        $modal.showModal();
+        configModal('Agregar producto');
+        openModal();
     }
 
     if ($editButton) {
         const rowData = $editButton.closest('.products__row').dataset;
 
-        $modalTitle.textContent = 'Actualizar producto';
+        configModal('Actualizar producto');
         $preview.src = `images/${rowData.image}`;
         $form.id.value = rowData.id;
         $form.title.value = rowData.title;
@@ -106,7 +111,7 @@ d.addEventListener('click', async e => {
         $form.discount_type.value = rowData.discount_type;
         $form.stock.value = rowData.stock;
         $form.category_id.value = rowData.category_id;
-        $modal.showModal();
+        openModal();
     }
 
     if ($deleteButton) {
@@ -137,4 +142,10 @@ $attachment.addEventListener('change', () => {
         $fileName.innerHTML = $attachment.files[0].name;
         $preview.src = URL.createObjectURL($attachment.files[0]);
     }
+});
+
+onModalClose(() => {
+    $form?.reset();
+    if ($preview) $preview.src = '';
+    if ($fileName) $fileName.textContent = 'Ningún archivo seleccionado.';
 });

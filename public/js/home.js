@@ -1,5 +1,5 @@
-const $main = d.querySelector('.main'),
-    $template = d.querySelector('.template').content;
+const $main = document.querySelector('.main'),
+    $template = document.querySelector('.template').content;
 
 const loadProducts = async () => {
     const params = new URLSearchParams(window.location.search),
@@ -22,12 +22,12 @@ const fetchProducts = async (category) => {
 };
 
 const renderProducts = (products) => {
-    const $fragment = d.createDocumentFragment();
+    const $fragment = document.createDocumentFragment();
 
     $main.replaceChildren();
 
     products.forEach(product => {
-        const $clone = d.importNode($template, true);
+        const $clone = document.importNode($template, true);
 
         $clone.querySelector('.card').dataset.id = product.id;
         $clone.querySelector('.card__main').href = `/product?id=${product.id}`;
@@ -56,9 +56,9 @@ const updateCounter = async (productId, action) => {
     return await axios.post(`/Api/Cart/update/${productId}`, { action });
 };
 
-d.addEventListener('DOMContentLoaded', loadProducts);
+document.addEventListener('DOMContentLoaded', loadProducts);
 
-d.addEventListener('click', async e => {
+document.addEventListener('click', async e => {
     const $addToCartButton = e.target.closest('.card__cart--add'),
         $increaseButton = e.target.closest('.card__cart--increase'),
         $decreaseButton = e.target.closest('.card__cart--decrease'),

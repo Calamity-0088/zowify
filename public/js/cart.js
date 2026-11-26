@@ -1,11 +1,13 @@
-const $cartContainer = d.querySelector('.cart__content'),
-    $summaryProducts = d.querySelector('.summary__products'),
-    $summaryDiscount = d.querySelector('.summary__discount'),
-    $summaryTotal = d.querySelector('.summary__total'),
-    $template = d.querySelector('.template').content;
+import { openModal } from "./modules/modal.js";
+
+const $cartContainer = document.querySelector('.cart__content'),
+    $summaryProducts = document.querySelector('.summary__products'),
+    $summaryDiscount = document.querySelector('.summary__discount'),
+    $summaryTotal = document.querySelector('.summary__total'),
+    $template = document.querySelector('.template').content;
 
 const getAll = async () => {
-    const $fragment = d.createDocumentFragment();
+    const $fragment = document.createDocumentFragment();
     let cartJson, totals;
 
     try {
@@ -24,7 +26,7 @@ const getAll = async () => {
     $cartContainer.replaceChildren();
 
     cartJson.forEach(product => {
-        const $clone = d.importNode($template, true);
+        const $clone = document.importNode($template, true);
         $clone.querySelector('.cart__product').dataset.id = product.id;
         $clone.querySelector('.cart__img').src = `images/${product.image}`;
         $clone.querySelector('.cart__name').textContent = product.title;
@@ -53,9 +55,9 @@ const updateCounter = async (productId, action) => {
     return await axios.post(`/Api/Cart/update/${productId}`, { action });
 }
 
-d.addEventListener("DOMContentLoaded", getAll);
+document.addEventListener("DOMContentLoaded", getAll);
 
-d.addEventListener("click", async e => {
+document.addEventListener("click", async e => {
     const $removeButton = e.target.closest('.cart__button--remove'),
         $increaseButton = e.target.closest('.cart__button--increase'),
         $decreaseButton = e.target.closest('.cart__button--decrease'),
@@ -65,7 +67,7 @@ d.addEventListener("click", async e => {
 
     if ($paymentButton) {
         renderCardPaymentBrick(bricksBuilder);
-        $modal.showModal();
+        openModal();
     }
 
     if (!$product || !$itemButtons) return;

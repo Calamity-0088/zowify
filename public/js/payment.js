@@ -1,3 +1,5 @@
+import { onModalClose } from "./modules/modal";
+
 const mp = new MercadoPago('TEST-7eaf921a-7cb3-47a2-8466-fd7925fda390', {
     locale: 'es-PE'
 });
@@ -82,8 +84,8 @@ const renderStatusScreenBrick = async (bricksBuilder) => {
         callbacks: {
             onReady: () => {
                 /*
-                  Callback llamado cuando Brick está listo.
-                  Aquí puede ocultar cargamentos de su sitio, por ejemplo.
+                    Callback llamado cuando Brick está listo.
+                    Aquí puede ocultar cargamentos de su sitio, por ejemplo.
                 */
             },
             onError: (err) => {
@@ -101,3 +103,5 @@ const renderStatusScreenBrick = async (bricksBuilder) => {
         settings,
     );
 };
+
+onModalClose(() => window?.statusScreenBrickController?.unmount());
